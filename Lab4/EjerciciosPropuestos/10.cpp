@@ -2,8 +2,10 @@
 enteros en otro arreglo utilizando punteros.
 */
 
-void copiarArray(int *a, int *b){
-
+void copiarArray(int *a, int *b, int n){
+    for(int i = 0; i < n; ++i){
+        *(b+i) = *(a+i); 
+    }
 }
 
 #include <iostream>
@@ -14,10 +16,10 @@ int main(){
     int D[6];
     const int n = sizeof(A)/sizeof(A[0]);
     int *p = A;
+    copiarArray(A,D, n);
 
     for(int i = 0; i <n; ++i){
-        cout << A +i <<endl;
-        //p++;
+        cout << *(D +i) << " ";
     }
 
     return 0; 
