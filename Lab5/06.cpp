@@ -22,7 +22,7 @@ int division(int a, int b){
 }
 
 int main(){
-    int (*operaciones[4])(int, int) ={&suma ,resta, producto, division};
+    int (*operaciones[4])(int, int) ={suma ,resta, producto, division};
 
 
     return 0; 
