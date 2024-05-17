@@ -44,11 +44,16 @@ int main(){
     imprimir(a2,n2);
     cout << "\n";
 
-    
-
     int *arrConcat = concatArreglos(a1,a2,n1,n2);
 
     imprimir(arrConcat, n1+n2);
+
+    // NO OLVIDAR LIBERAR MEMORIA
+    delete [] a1;
+
+    delete [] a2;
+
+    delete [] arrConcat;
 
 
     return 0; 
