@@ -14,7 +14,9 @@ int main(){
     int n = 3; 
     Persona *ps = new Persona[n];
  
-    ps[0].nombre = "Juan";
+    (ps+0)->nombre = "Juan";
+
+    cout << "Nombre: " << (ps + 0)->nombre;
 
     //....
     delete[] ps;
