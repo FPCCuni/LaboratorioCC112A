@@ -1,5 +1,5 @@
 #include <iostream>
-#include <iomanip> //setw()
+#include <iomanip> //PARA USAR MANIPULADORES DE FLUJO, setw() left     setiosflags(ios::fixed) setprecision() 
 using namespace std;
 
 struct Alumno{
