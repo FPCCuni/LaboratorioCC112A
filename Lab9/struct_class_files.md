@@ -50,18 +50,18 @@ Ejemplo: Dado la siguiente estructura
 ```
 
 ## Programación Orientada a Objetos
-![alt text](poo.png)
+![alt text](imag/poo.png)
 
 
 ## Los 4 Pilares de la Programación Orientada a Objetos
 
-![alt text](ppoo.png)
+![alt text](imag/ppoo.png)
 
 
 # 2.  Programa, datos y memoria
 * Cuando ejecutamos un programa, los datos deben almacenarse en la memoria para el procesamiento, estos datos provienen de una fuente externa y va a un destino  externo.
 
-![alt text](image-1.png)
+![alt text](imag/image-1.png)
 
 *  Hasta el momento hemos usado el teclado como fuente y la pantalla como destino. Estos dispositivos son temporales, pues cuando volvemos a ejecutar el programa debemos volver a ingresar los datos y la salida se volverá a generar. El almacenamiento de datos en la memoria es temporal.
 
@@ -71,7 +71,7 @@ Ejemplo: Dado la siguiente estructura
 
 # 3. Clases para flujos (stream Classes)
 Para manejar operaciones de entrada/salida (I/O), la biblioteca C++ define una jerarquía de clases.
-![alt text](image.png)
+![alt text](imag/image.png)
 
 
 ## Archivos de Cabecera en C++ para operaciones I/O
