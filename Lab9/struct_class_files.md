@@ -104,4 +104,244 @@ El manejo de archivos en C++ se realiza mediante el uso de flujos (streams) que 
 
 Estas clases de flujo son parte de la biblioteca estándar de C++  y proporcionan métodos para abrir, cerrar, leer y escribir en archivos. Para poder utilizarlo debemos agregar ```#include<fstream>``` en el encabezado.
 
+## Apertura y cierre de archivo
+
+* ``void open(const char *NombreArchivo, modo)``
+
+* Modos de apertura
+
+    - ``ios::out`` Solo para  lectura
+
+    - ``ios::in`` Solo para escritura
+
+    - ``ios::in | ios::out`` Para lectura y escritura
+
+    - ``ios::app`` Para añadir contenido a un archivo
+
+    - Tipo de archivo: Por default es TEXTO, para usar binario se debe agregar el modo ``ios::binary``
+
+    - Si no se puede abrir el archivo el stream será nulo
+
+* ``void close();``
+
+    - ``fich.close();``
+
+* ``int eof() const;``
+
+    - Retorna 0 si está en el EOF
+
+* ``void clear(int nState = 0);``
+
+    - Limpia todoslos flags de error dentro del stream;
+
+
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+    char cadena[128];
+    ofstream salida("salida.txt");
+
+    salida << "Hola Mundo!" << endl;>
+    salida.close(); //
+
+    ifstream entrada("salida.txt");
+    entrada >> cadena
+    cout << cadena <<endl;
+
+    return 0;
+}
+//SALIDA Hola ?
+```
+
+## Archivos binarios
+Los problemas en el búfer se puede solucionar abriendo los archivos en modo binario
+
+* Apertura:
+
+    - ``ofstream fsalida("prueba.dat"`, ios::out | ios::binary);``
+
+    - ``ifstream fentrada ("prueba.dat", ios:: in | ios::binary);``
+
+* Lectura:
+
+    - ``istream& get(char& rch);``
+
+        * rch: es un puntero a caracter. Allí estará el caracer leído
+
+    - ``istream& read(unsigned char*  puch, int n Count);``
+
+        * Puch: Puntero a una estructura de datos
+
+        * nCount: Máxima cantidad de caracteres que se leerán
+
+* Escritura
+
+    - ``ostream& put(cahr ch);``
+
+        * ch: el caracter a insertar
+
+    - ``ostream& write(const unsigned char* puch, int n Count);``
+
+        * puch: Puntero a una estructura de datos
+
+        * nCount: Máxima cantidad de caracteres que se escribirán
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+
+struct Registro{
+    char nombre[32];
+    int edad;
+    float altura;
+};
+
+int main(){
+    Registro pepe, pepe2;
+
+    ofstream fsalida("prueba.dat", ios::out | ios::binary);
+
+    strcpy(pepe.nombre, "Juan Garcia");
+    pepe.edad = 42;
+    pepe.altura = 1.78;
+
+    fsalida.write((char*)& pepe, sizeof(Registro));
+
+    fsalida.close();
+
+    ifstream fentrada("prueba.dat", ios::in | ios::binary);
+
+    fentrada.read((cahr*)&pepe2, sizeof(Registro));
+
+    cout << pepe2.nombre << endl;
+    cout <<pepe2.edad <<endl;
+    cout << pepe2.altura <<endl;
+
+    fentrada.close();
+    return 0;
+}
+
+```
+
+
+## Acceso Aleatorio
+
+A diferencia de los archivos secuenciales, cuya lectura/escritura va  del inicio al final del archivo; el acceso aleatorio permite leer/escribir en cualquier posición. 
+
+* ``streampos tellp();`` informa la posición dentro de un archivo de salida
+
+* ``streampos tellg();`` informa la posición dentro de un archivo de entrada
+
+* ``ostream& seekp(streamoff offsett, ios::seek_dir dir);`` Cambia la posición del stream de salida
+
+    - ``streamoff`` es un typedef equivalente a long
+
+    - ``offsett`` es la nueva posición de desplazamiento
+
+    - ``dir`` es la dirección de la posición
+
+        * ``ios::beg`` desde el inicio del stream
+
+        * ``ios::cur`` desde la posición actual del stream
+
+        * ``ios::end`` desde el final del stream
+
+* ``istream& seekg(streamoff off, ios::seek_dir dir);`` Cambia la posición del stream de entrada
+
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+    int i;
+    char cad[20];
+    streampos pos; // guardará la posición del archivo
+
+    char mes[][20] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"};
+
+    cout << "Crear archivo d enombres de meses: " <<endl;
+
+    ofstream fsalida("meses.dat, ios::out | ios::binary"); //fichero con los meses
+
+    for(i = 0; i < 12; ++i)
+        fsalida.write(mes[i],20);
+
+    fsalida.close();
+
+    cou << "\nAcceso secuencial:" <<endl;
+
+    ifstream fentrada("meses.dat", ios::in | ios :: binary);
+
+    fentrada.read(cad,20);
+
+    do{
+        cout << cad <<endl;
+        fentrada.read(cad,20);
+
+    }while(!fentrada.eof());
+
+    fentrada.clear(); //limpia flags de errrores
+
+    cout <<"\nAcceso aleatorio:" << endl;
+
+    for(i = 11; i >= 0; --i){
+        fentrada.seekg(20*i, ios::beg);
+        fentrada.read(cad,20)
+
+        cout << cad <<endl;
+    }
+
+    //Calcular el numero de elementos almacenados en un fichero
+    //El numero de registros es el tamaño en bytes dividido entre el 
+    //tamaño del registrto
+
+    fentrada.seekg(0, ios::end); // ir al final del fichero
+    pos = fentrada.tellg(); // leer la posicion actual
+
+    cout<< "\nNumero de registros: " << pos/20 << endl;
+
+    fentrada,close();
+
+    return 0;
+}
+```
+
+
+```cpp
+//flujo hacia la impresora
+
+#include <iostream>
+#include <stdafx.h>
+#include <fstream>
+
+using namespace std;
+
+int main(int argc, char* argv[]){
+    ifstream ArchIN("Readme.txt");
+    ofstream Printer("LPT1");
+    char cad[80];
+
+    cout << "\nComienza Impresion a PRINTER:" <<endl;
+
+    ArchIN.read(cad,80);
+
+    do{
+        Printer.write(cad,80);
+        ArchIN.read(cad,80);
+
+    } while(!ArchIn.eof());
+
+    ArchIN.clear(); // limpia los flags de errores
+
+    return 0;
+
+}
+```
 
